@@ -8,8 +8,9 @@ module simd_datapath (
     input wire [2:0] rd,
     input wire [1:0] alu_op,
 
-    input wire             wb_sel,
-    input wire [3:0][31:0] ext_data_in
+    input  wire              wb_sel,
+    input  wire  [3:0][31:0] ext_data_in,
+    output logic             is_zero
 );
 
   logic [3:0][31:0] alu_in_a;
@@ -41,7 +42,8 @@ module simd_datapath (
       .a(alu_in_a),
       .b(alu_in_b),
       .alu_op(alu_op),
-      .result(alu_out)
+      .result(alu_out),
+      .is_zero(is_zero)
   );
 
 endmodule

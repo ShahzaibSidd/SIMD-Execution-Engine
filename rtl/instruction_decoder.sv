@@ -3,22 +3,24 @@
 module instruction_decoder (
     input wire [31:0] instr,
 
-    output logic       we,
-    output logic [2:0] rs1,
-    output logic [2:0] rs2,
-    output logic [2:0] rd,
-    output logic [2:0] alu_op,
-    output logic       wb_sel
+    output logic        we,
+    output logic [ 2:0] rs1,
+    output logic [ 2:0] rs2,
+    output logic [ 2:0] rd,
+    output logic [ 2:0] alu_op,
+    output logic        wb_sel,
+    output logic        branch,
+    output logic [16:0] imm
 );
 
-  localparam logic [5:0] OPC_VADD  = 6'd1;
-  localparam logic [5:0] OPC_VSUB  = 6'd2;
-  localparam logic [5:0] OPC_VAND  = 6'd4;
-  localparam logic [5:0] OPC_VOR   = 6'd8;
-  localparam logic [5:0] OPC_VLOAD = 6'd16;
+  localparam logic [5:0] OPC_VADD  = 6'b000001;
+  localparam logic [5:0] OPC_VSUB  = 6'b000010;
+  localparam logic [5:0] OPC_VAND  = 6'b000100;
+  localparam logic [5:0] OPC_VOR   = 6'b001000;
+  localparam logic [5:0] OPC_VLOAD = 6'b010000;
+  localparam logic [5:0] OPC_BEQ   = 6'b110000;
 
-  logic [ 5:0] opcode;
-  logic [16:0] imm;
+  logic [5:0] opcode;
 
   assign opcode = instr[31:26];
   assign rd     = instr[25:23];
@@ -57,6 +59,13 @@ module instruction_decoder (
         wb_sel = 1'b1;
         alu_op = 2'b00;
       end
+      OPC_BEQ: begin
+        we     = 1'b0;
+        wb_sel = 1'b1;
+        alu_op = 2'b01;
+        branch = 1'b1;
+      end
+
       default: begin
         we = 1'b0;
       end

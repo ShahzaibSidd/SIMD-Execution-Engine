@@ -13,13 +13,21 @@ module simd_core (
   logic [ 2:0] ctrl_alu_op;
   logic        ctrl_wb_sel;
 
+  logic        ctrl_is_zero;
+  logic        ctrl_branch;
+
   logic [31:0] pc;
   logic [31:0] instr;
+  logic [16:0] imm;
+
 
   program_counter pc_inst (
       .clk(clk),
       .reset(reset),
-      .pc(pc)
+      .pc(pc),
+      .branch(ctrl_branch),
+      .imm(imm),
+      .is_zero(ctrl_is_zero)
   );
 
   instruction_memory rom_inst (
@@ -34,7 +42,9 @@ module simd_core (
       .rs2(ctrl_rs2),
       .rd(ctrl_rd),
       .alu_op(ctrl_alu_op),
-      .wb_sel(ctrl_wb_sel)
+      .wb_sel(ctrl_wb_sel),
+      .branch(ctrl_branch),
+      .imm(imm)
   );
 
   simd_datapath datapath_inst (
@@ -45,7 +55,8 @@ module simd_core (
       .rd(ctrl_rd),
       .alu_op(ctrl_alu_op),
       .wb_sel(ctrl_wb_sel),
-      .ext_data_in(ext_data_in)
+      .ext_data_in(ext_data_in),
+      .is_zero(ctrl_is_zero)
   );
 
 endmodule

@@ -4,7 +4,8 @@ module alu (
     input  wire  [31:0] a,
     input  wire  [31:0] b,
     input  wire  [ 1:0] alu_op,
-    output logic [31:0] result
+    output logic [31:0] result,
+    output logic        is_zero
 );
 
   localparam logic [1:0] OP_ADD = 2'b00;
@@ -19,7 +20,9 @@ module alu (
       OP_AND:  result = a & b;
       OP_OR:   result = a | b;
       default: result = 32'd0;
+
     endcase
   end
+
 
 endmodule

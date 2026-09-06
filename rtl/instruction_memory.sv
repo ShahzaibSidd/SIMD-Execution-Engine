@@ -5,22 +5,33 @@ module instruction_memory (
     output logic [31:0] instr
 );
 
-  logic [31:0] rom[32];
+  logic [31:0] rom[64];
 
   initial begin
-    // 1. VLOAD V1, 0, 0 (Hex: 0x4080_0000)
-    rom[0] = 32'b010000_001_000_000_00000000000000000;
+    // Bit layout: {opcode[5:0], rd[2:0], rs1[2:0], rs2[2:0], imm[16:0]}
+    // Opcodes: VADD=000001, VSUB=000010, VLOAD=010000, BEQ=110000
 
-    // 2. VLOAD V2, 0, 0 (Hex: 0x4100_0000)
-    rom[1] = 32'b010000_010_000_000_00000000000000000;
+    // [0] PC = 0: VLOAD V1
+    rom[0] = {6'b010000, 3'd1, 3'd0, 3'd0, 17'd0};
 
-    // 3. VADD V3, V1, V2 (Hex: 0x04C8_0000)
-    rom[2] = 32'b000001_011_001_010_00000000000000000;
+    // [1] PC = 4: VLOAD V2
+    rom[1] = {6'b010000, 3'd2, 3'd0, 3'd0, 17'd0};
 
-    // 4. VSUB V4, V3, V2 (Hex: 0x0908_0000)
-    rom[3] = 32'b000010_100_011_010_00000000000000000;
+    // [2] PC = 8: BEQ V1, V2, +12 bytes
+    // If V1 == V2, Next PC = 8 + 12 = 20 (rom index 5)
+    rom[2] = {6'b110000, 3'd0, 3'd1, 3'd2, 17'd12};
 
-    for (int i = 4; i < 64; i++) begin
+    // [3] PC = 12: VADD V3, V1, V2 (SKIPPED if branch is taken)
+    rom[3] = {6'b000001, 3'd3, 3'd1, 3'd2, 17'd0};
+
+    // [4] PC = 16: NOP
+    rom[4] = 32'h0000_0000;
+
+    // [5] PC = 20: VSUB V4, V1, V2 (BRANCH TARGET)
+    rom[5] = {6'b000010, 3'd4, 3'd1, 3'd2, 17'd0};
+
+    // Pad remaining slots with NOPs
+    for (int i = 6; i < 64; i++) begin
       rom[i] = 32'h0000_0000;
     end
   end
@@ -32,7 +43,7 @@ module instruction_memory (
     if (word_index < 64) begin
       instr = rom[word_index];
     end else begin
-      instr = 32'd0;
+      instr = 32'h0000_0000;
     end
   end
 
