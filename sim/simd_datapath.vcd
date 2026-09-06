@@ -1,0 +1,273 @@
+$date
+	Fri Sep  4 02:52:49 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module simd_datapath_tb $end
+$var reg 2 ! alu_op [1:0] $end
+$var reg 1 " clk $end
+$var reg 3 # rd [2:0] $end
+$var reg 3 $ rs1 [2:0] $end
+$var reg 3 % rs2 [2:0] $end
+$var reg 1 & we $end
+$scope module dut $end
+$var wire 2 ' alu_op [1:0] $end
+$var wire 1 " clk $end
+$var wire 3 ( rd [2:0] $end
+$var wire 3 ) rs1 [2:0] $end
+$var wire 3 * rs2 [2:0] $end
+$var wire 1 & we $end
+$var wire 128 + alu_out [127:0] $end
+$var wire 128 , alu_in_b [127:0] $end
+$var wire 128 - alu_in_a [127:0] $end
+$scope module alu_inst $end
+$var wire 2 . alu_op [1:0] $end
+$var wire 128 / result [127:0] $end
+$var wire 128 0 b [127:0] $end
+$var wire 128 1 a [127:0] $end
+$scope begin g_alu_lanes[0] $end
+$var parameter 2 2 i $end
+$scope module alu_inst $end
+$var wire 32 3 a [31:0] $end
+$var wire 2 4 alu_op [1:0] $end
+$var wire 32 5 b [31:0] $end
+$var parameter 2 6 OP_ADD $end
+$var parameter 2 7 OP_AND $end
+$var parameter 2 8 OP_OR $end
+$var parameter 2 9 OP_SUB $end
+$var reg 32 : result [31:0] $end
+$upscope $end
+$upscope $end
+$scope begin g_alu_lanes[1] $end
+$var parameter 2 ; i $end
+$scope module alu_inst $end
+$var wire 32 < a [31:0] $end
+$var wire 2 = alu_op [1:0] $end
+$var wire 32 > b [31:0] $end
+$var parameter 2 ? OP_ADD $end
+$var parameter 2 @ OP_AND $end
+$var parameter 2 A OP_OR $end
+$var parameter 2 B OP_SUB $end
+$var reg 32 C result [31:0] $end
+$upscope $end
+$upscope $end
+$scope begin g_alu_lanes[2] $end
+$var parameter 3 D i $end
+$scope module alu_inst $end
+$var wire 32 E a [31:0] $end
+$var wire 2 F alu_op [1:0] $end
+$var wire 32 G b [31:0] $end
+$var parameter 2 H OP_ADD $end
+$var parameter 2 I OP_AND $end
+$var parameter 2 J OP_OR $end
+$var parameter 2 K OP_SUB $end
+$var reg 32 L result [31:0] $end
+$upscope $end
+$upscope $end
+$scope begin g_alu_lanes[3] $end
+$var parameter 3 M i $end
+$scope module alu_inst $end
+$var wire 32 N a [31:0] $end
+$var wire 2 O alu_op [1:0] $end
+$var wire 32 P b [31:0] $end
+$var parameter 2 Q OP_ADD $end
+$var parameter 2 R OP_AND $end
+$var parameter 2 S OP_OR $end
+$var parameter 2 T OP_SUB $end
+$var reg 32 U result [31:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope module reg_file_inst $end
+$var wire 1 " clk $end
+$var wire 3 V rd [2:0] $end
+$var wire 3 W rs1 [2:0] $end
+$var wire 3 X rs2 [2:0] $end
+$var wire 128 Y wd [127:0] $end
+$var wire 1 & we $end
+$var reg 128 Z rd1_data [127:0] $end
+$var reg 128 [ rd2_data [127:0] $end
+$upscope $end
+$upscope $end
+$scope begin $ivl_for_loop0 $end
+$var integer 32 \ k [31:0] $end
+$upscope $end
+$upscope $end
+$scope module simd_datapath_tb $end
+$scope module dut $end
+$scope module reg_file_inst $end
+$var reg 128 ] \v_reg[0] [127:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope module simd_datapath_tb $end
+$scope module dut $end
+$scope module reg_file_inst $end
+$var reg 128 ^ \v_reg[1] [127:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope module simd_datapath_tb $end
+$scope module dut $end
+$scope module reg_file_inst $end
+$var reg 128 _ \v_reg[2] [127:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope module simd_datapath_tb $end
+$scope module dut $end
+$scope module reg_file_inst $end
+$var reg 128 ` \v_reg[3] [127:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope module simd_datapath_tb $end
+$scope module dut $end
+$scope module reg_file_inst $end
+$var reg 128 a \v_reg[4] [127:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope module simd_datapath_tb $end
+$scope module dut $end
+$scope module reg_file_inst $end
+$var reg 128 b \v_reg[5] [127:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope module simd_datapath_tb $end
+$scope module dut $end
+$scope module reg_file_inst $end
+$var reg 128 c \v_reg[6] [127:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope module simd_datapath_tb $end
+$scope module dut $end
+$scope module reg_file_inst $end
+$var reg 128 d \v_reg[7] [127:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b1 T
+b11 S
+b10 R
+b0 Q
+b11 M
+b1 K
+b11 J
+b10 I
+b0 H
+b10 D
+b1 B
+b11 A
+b10 @
+b0 ?
+b1 ;
+b1 9
+b11 8
+b10 7
+b0 6
+b0 2
+$end
+#0
+$dumpvars
+bx d
+bx c
+bx b
+bx a
+bx `
+bx _
+bx ^
+bx ]
+b1000 \
+bx [
+bx Z
+bx Y
+b0 X
+b0 W
+b0 V
+bx U
+bx P
+b0 O
+bx N
+bx L
+bx G
+b0 F
+bx E
+bx C
+bx >
+b0 =
+bx <
+bx :
+bx 5
+b0 4
+bx 3
+bx 1
+bx 0
+bx /
+b0 .
+bx -
+bx ,
+bx +
+b0 *
+b0 )
+b0 (
+b0 '
+0&
+b0 %
+b0 $
+b0 #
+0"
+b0 !
+$end
+#5000
+1"
+#10000
+b1000100 U
+b110011 L
+b100010 C
+b1000100000000000000000000000000001100110000000000000000000000000010001000000000000000000000000000010001 +
+b1000100000000000000000000000000001100110000000000000000000000000010001000000000000000000000000000010001 /
+b1000100000000000000000000000000001100110000000000000000000000000010001000000000000000000000000000010001 Y
+b10001 :
+b1000000 P
+b110000 G
+b100000 >
+b10000 5
+b100 N
+b11 E
+b10 <
+b1 3
+b1000000000000000000000000000000001100000000000000000000000000000010000000000000000000000000000000010000 ,
+b1000000000000000000000000000000001100000000000000000000000000000010000000000000000000000000000000010000 0
+b1000000000000000000000000000000001100000000000000000000000000000010000000000000000000000000000000010000 [
+b100000000000000000000000000000000110000000000000000000000000000001000000000000000000000000000000001 -
+b100000000000000000000000000000000110000000000000000000000000000001000000000000000000000000000000001 1
+b100000000000000000000000000000000110000000000000000000000000000001000000000000000000000000000000001 Z
+1&
+b11 #
+b11 (
+b11 V
+b10 %
+b10 *
+b10 X
+b1 $
+b1 )
+b1 W
+0"
+b1000000000000000000000000000000001100000000000000000000000000000010000000000000000000000000000000010000 _
+b100000000000000000000000000000000110000000000000000000000000000001000000000000000000000000000000001 ^
+#15000
+b1000100000000000000000000000000001100110000000000000000000000000010001000000000000000000000000000010001 `
+1"
+#20000
+0&
+0"

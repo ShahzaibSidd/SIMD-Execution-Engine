@@ -1,0 +1,66 @@
+`default_nettype none
+
+module instruction_decoder (
+    input wire [31:0] instr,
+
+    output logic       we,
+    output logic [2:0] rs1,
+    output logic [2:0] rs2,
+    output logic [2:0] rd,
+    output logic [2:0] alu_op,
+    output logic       wb_sel
+);
+
+  localparam logic [5:0] OPC_VADD  = 6'd1;
+  localparam logic [5:0] OPC_VSUB  = 6'd2;
+  localparam logic [5:0] OPC_VAND  = 6'd4;
+  localparam logic [5:0] OPC_VOR   = 6'd8;
+  localparam logic [5:0] OPC_VLOAD = 6'd16;
+
+  logic [ 5:0] opcode;
+  logic [16:0] imm;
+
+  assign opcode = instr[31:26];
+  assign rd     = instr[25:23];
+  assign rs1    = instr[22:20];
+  assign rs2    = instr[19:17];
+  assign imm    = instr[16:0];
+
+  always_comb begin
+    we     = 1'b0;
+    wb_sel = 1'b0;
+    alu_op = 2'b00;
+
+    case (opcode)
+      OPC_VADD: begin
+        we     = 1'b1;
+        wb_sel = 1'b0;
+        alu_op = 2'b00;
+      end
+      OPC_VSUB: begin
+        we     = 1'b1;
+        wb_sel = 1'b0;
+        alu_op = 2'b01;
+      end
+      OPC_VAND: begin
+        we     = 1'b1;
+        wb_sel = 1'b0;
+        alu_op = 2'b10;
+      end
+      OPC_VOR: begin
+        we     = 1'b1;
+        wb_sel = 1'b0;
+        alu_op = 2'b11;
+      end
+      OPC_VLOAD: begin
+        we     = 1'b1;
+        wb_sel = 1'b1;
+        alu_op = 2'b00;
+      end
+      default: begin
+        we = 1'b0;
+      end
+    endcase
+  end
+
+endmodule
