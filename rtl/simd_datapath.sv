@@ -8,20 +8,24 @@ module simd_datapath (
     input wire [2:0] rd,
     input wire [1:0] alu_op,
 
-    input  wire              wb_sel,
-    input  wire  [3:0][31:0] ext_data_in,
-    output logic             is_zero
+    input wire wb_sel,
+
+    input  wire  [3:0][31:0] mem_data_out,  // data coming from sram
+    output logic [3:0][31:0] mem_data_in,   // data going to sram
+
+    output logic is_zero
 );
 
   logic [3:0][31:0] alu_in_a;
   logic [3:0][31:0] alu_in_b;
   logic [3:0][31:0] alu_out;
-
   logic [3:0][31:0] write_back_data;
+
+  assign mem_data_in = alu_in_a;
 
   always_comb begin
     if (wb_sel) begin
-      write_back_data = ext_data_in;
+      write_back_data = mem_data_out;
     end else begin
       write_back_data = alu_out;
     end
