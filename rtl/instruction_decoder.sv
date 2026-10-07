@@ -8,7 +8,7 @@ module instruction_decoder (
     output logic [2:0] rs1,
     output logic [2:0] rs2,
     output logic [2:0] rd,
-    output logic [2:0] alu_op,
+    output logic [1:0] alu_op,
     output logic       wb_sel,
 
     // branch control

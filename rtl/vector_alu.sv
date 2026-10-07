@@ -14,7 +14,7 @@ module vector_alu (
       alu alu_inst (
           .a(a[i]),
           .b(b[i]),
-          .alu_op(alu_op),
+          .alu_op(alu_op[1:0]),
           .result(result[i])
       );
     end

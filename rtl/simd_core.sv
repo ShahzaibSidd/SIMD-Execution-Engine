@@ -1,16 +1,15 @@
 `default_nettype none
 
 module simd_core (
-    input wire             clk,
-    input wire             reset,
-    input wire [3:0][31:0] ext_data_in
+    input wire clk,
+    input wire reset
 );
 
   logic              ctrl_we;
   logic [ 2:0]       ctrl_rs1;
   logic [ 2:0]       ctrl_rs2;
   logic [ 2:0]       ctrl_rd;
-  logic [ 2:0]       ctrl_alu_op;
+  logic [ 1:0]       ctrl_alu_op;
   logic              ctrl_wb_sel;
 
   logic              ctrl_is_zero;
@@ -60,15 +59,13 @@ module simd_core (
       .rs2(ctrl_rs2),
       .rd(ctrl_rd),
       .alu_op(ctrl_alu_op),
-      .wb_sel(),
       .mem_data_out(mem_to_datapath),
       .mem_data_in(datapath_to_mem),
       .wb_sel(ctrl_wb_sel),
-      .ext_data_in(ext_data_in),
       .is_zero(ctrl_is_zero)
   );
 
-  data_memory memory_inst (
+  data_memory ram_inst (
       .clk(clk),
       .we(ctrl_mem_we),
       .address({15'b0, imm}),
