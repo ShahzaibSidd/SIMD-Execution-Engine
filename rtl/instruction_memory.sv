@@ -29,9 +29,10 @@ module instruction_memory (
     end
   end
 
+  logic [29:0] word_index;
+  assign word_index = addr[31:2];
+
   always_comb begin
-    logic [29:0] word_index;
-    word_index = addr[31:2];
     if (word_index < 64) begin
       instr = rom[word_index];
     end else begin
