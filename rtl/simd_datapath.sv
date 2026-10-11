@@ -14,7 +14,9 @@ module simd_datapath (
     input wire wb_sel,
 
     input  wire  [3:0][31:0] mem_data_out,  // data coming from sram
-    output logic [3:0][31:0] mem_data_in    // data going to sram
+    output logic [3:0][31:0] mem_data_in,   // data going to sram
+
+    output logic any_active
 
 );
 
@@ -30,6 +32,8 @@ module simd_datapath (
   logic [3:0] mask_stack[4];
   logic [1:0] sp;
   logic [3:0] lane_we;
+
+  assign any_active = |exec_mask;
 
   always_comb begin
     for (int i = 0; i < 4; i = i + 1) begin

@@ -6,7 +6,7 @@ module program_counter (
 
     input wire        branch,
     input wire [16:0] imm,
-    input wire        is_zero,
+    input wire        any_active,
 
     output logic [31:0] pc
 );
@@ -18,7 +18,7 @@ module program_counter (
     if (reset) begin
       pc <= 32'd0;
     end else begin
-      if (branch && is_zero) begin
+      if (branch && any_active) begin
         pc <= pc + extended_imm;
       end else begin
         pc <= pc + 32'd4;

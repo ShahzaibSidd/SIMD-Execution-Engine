@@ -12,7 +12,7 @@ module simd_core (
   logic [ 1:0]       ctrl_alu_op;
   logic              ctrl_wb_sel;
 
-  logic              ctrl_is_zero;
+  logic              ctrl_any_active;
   logic              ctrl_branch;
 
   logic              ctrl_mem_we;
@@ -32,7 +32,7 @@ module simd_core (
       .pc(pc),
       .branch(ctrl_branch),
       .imm(imm),
-      .is_zero(ctrl_is_zero)
+      .any_active(ctrl_any_active)
   );
 
   instruction_memory rom_inst (
@@ -57,7 +57,7 @@ module simd_core (
   simd_datapath datapath_inst (
       .clk(clk),
       .reset(reset),
-      .we(ctrl_we),
+      .ctrl_we(ctrl_we),
       .rs1(ctrl_rs1),
       .rs2(ctrl_rs2),
       .rd(ctrl_rd),
@@ -66,7 +66,7 @@ module simd_core (
       .mem_data_out(mem_to_datapath),
       .mem_data_in(datapath_to_mem),
       .wb_sel(ctrl_wb_sel),
-      .is_zero(ctrl_is_zero)
+      .any_active(ctrl_any_active)
   );
 
   data_memory ram_inst (
