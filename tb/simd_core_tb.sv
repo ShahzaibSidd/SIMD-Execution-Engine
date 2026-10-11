@@ -16,6 +16,21 @@ module simd_core_tb;
     forever #5 clk = ~clk;
   end
 
+  wire [31:0] v1_lane0 = dut.datapath_inst.reg_file_inst.v_reg[1][0];
+  wire [31:0] v1_lane1 = dut.datapath_inst.reg_file_inst.v_reg[1][1];
+  wire [31:0] v1_lane2 = dut.datapath_inst.reg_file_inst.v_reg[1][2];
+  wire [31:0] v1_lane3 = dut.datapath_inst.reg_file_inst.v_reg[1][3];
+
+  wire [31:0] v2_lane0 = dut.datapath_inst.reg_file_inst.v_reg[2][0];
+  wire [31:0] v2_lane1 = dut.datapath_inst.reg_file_inst.v_reg[2][1];
+  wire [31:0] v2_lane2 = dut.datapath_inst.reg_file_inst.v_reg[2][2];
+  wire [31:0] v2_lane3 = dut.datapath_inst.reg_file_inst.v_reg[2][3];
+
+  wire [31:0] v4_lane0 = dut.datapath_inst.reg_file_inst.v_reg[4][0];
+  wire [31:0] v4_lane1 = dut.datapath_inst.reg_file_inst.v_reg[4][1];
+  wire [31:0] v4_lane2 = dut.datapath_inst.reg_file_inst.v_reg[4][2];
+  wire [31:0] v4_lane3 = dut.datapath_inst.reg_file_inst.v_reg[4][3];
+
   initial begin
     $dumpfile("sim/simd_core.vcd");
     $dumpvars(0, simd_core_tb);
@@ -29,6 +44,21 @@ module simd_core_tb;
       $dumpvars(0, dut.datapath_inst.reg_file_inst.v_reg[k]);
     end
     $dumpvars(0, dut.ram_inst.sram[2]);  // Address 32
+
+    $dumpvars(0, v1_lane0);
+    $dumpvars(0, v1_lane1);
+    $dumpvars(0, v1_lane2);
+    $dumpvars(0, v1_lane3);
+
+    $dumpvars(0, v2_lane0);
+    $dumpvars(0, v2_lane1);
+    $dumpvars(0, v2_lane2);
+    $dumpvars(0, v2_lane3);
+
+    $dumpvars(0, v4_lane0);
+    $dumpvars(0, v4_lane1);
+    $dumpvars(0, v4_lane2);
+    $dumpvars(0, v4_lane3);
 
     $display("\n==========================================");
     $display("BOOTING SIMT GPU CORE");
