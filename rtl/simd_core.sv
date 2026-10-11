@@ -16,6 +16,7 @@ module simd_core (
   logic              ctrl_branch;
 
   logic              ctrl_mem_we;
+  logic [ 1:0]       ctrl_mask_op;
 
   logic [31:0]       pc;
   logic [31:0]       instr;
@@ -49,16 +50,19 @@ module simd_core (
       .wb_sel(ctrl_wb_sel),
       .branch(ctrl_branch),
       .imm(imm),
-      .mem_we(ctrl_mem_we)
+      .mem_we(ctrl_mem_we),
+      .mask_op(ctrl_mask_op)
   );
 
   simd_datapath datapath_inst (
       .clk(clk),
+      .reset(reset),
       .we(ctrl_we),
       .rs1(ctrl_rs1),
       .rs2(ctrl_rs2),
       .rd(ctrl_rd),
       .alu_op(ctrl_alu_op),
+      .mask_op(ctrl_mask_op),
       .mem_data_out(mem_to_datapath),
       .mem_data_in(datapath_to_mem),
       .wb_sel(ctrl_wb_sel),

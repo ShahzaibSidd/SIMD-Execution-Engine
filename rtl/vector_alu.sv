@@ -5,7 +5,7 @@ module vector_alu (
     input  wire  [3:0][31:0] b,
     input  wire  [1:0]       alu_op,
     output logic [3:0][31:0] result,
-    output logic             is_zero
+    output logic [3:0]       cmp_mask
 );
 
   genvar i;
@@ -21,10 +21,13 @@ module vector_alu (
   endgenerate
 
   always_comb begin
-    if (result == 128'd0) begin
-      is_zero = 1'b1;
-    end else begin
-      is_zero = 1'b0;
+    cmp_mask = 4'b0000;
+    for (int j = 0; j < 4; j = j + 1) begin
+      if (result[j] == 32'd0) begin
+        cmp_mask[j] = 1'b1;
+      end else begin
+        cmp_mask[j] = 1'b0;
+      end
     end
   end
 endmodule
