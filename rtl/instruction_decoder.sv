@@ -24,7 +24,7 @@ module instruction_decoder (
 
   localparam logic [5:0] OPC_VADD  = 6'b000001;
   localparam logic [5:0] OPC_VSUB  = 6'b000010;
-  localparam logic [5:0] OPC_VAND  = 6'b000100;
+  localparam logic [5:0] OPC_VMUL  = 6'b000011;
   localparam logic [5:0] OPC_VOR   = 6'b001000;
 
   localparam logic [5:0] OPC_VLOAD = 6'b010000;
@@ -63,7 +63,7 @@ module instruction_decoder (
         wb_sel = 1'b0;
         alu_op = 2'b01;
       end
-      OPC_VAND: begin
+      OPC_VMUL: begin
         we     = 1'b1;
         wb_sel = 1'b0;
         alu_op = 2'b10;
