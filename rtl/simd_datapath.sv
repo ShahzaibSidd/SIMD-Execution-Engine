@@ -13,8 +13,9 @@ module simd_datapath (
 
     input wire wb_sel,
 
-    input  wire  [3:0][31:0] mem_data_out,  // data coming from sram
-    output logic [3:0][31:0] mem_data_in,   // data going to sram
+    input  wire  [ 3:0][31:0] mem_data_out,  // data coming from sram
+    output logic [ 3:0][31:0] mem_data_in,   // data going to sram
+    output logic [31:0]       mem_ptr_out,
 
     output logic any_active
 
@@ -27,6 +28,8 @@ module simd_datapath (
   logic [3:0]       cmp_mask;
 
   assign mem_data_in = alu_in_a;
+
+  assign mem_ptr_out = alu_in_a[0];
 
   logic [3:0] exec_mask;
   logic [3:0] mask_stack[4];

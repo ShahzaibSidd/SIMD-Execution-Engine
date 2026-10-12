@@ -17,23 +17,27 @@ module instruction_decoder (
 
     // sram memory control
     output logic mem_we,
+    output logic mem_addr_sel,
 
     // simt mask control
     output logic [1:0] mask_op
 );
 
-  localparam logic [5:0] OPC_VADD  = 6'b000001;
-  localparam logic [5:0] OPC_VSUB  = 6'b000010;
-  localparam logic [5:0] OPC_VMUL  = 6'b000011;
-  localparam logic [5:0] OPC_VOR   = 6'b001000;
+  localparam logic [5:0] OPC_VADD = 6'b000001;
+  localparam logic [5:0] OPC_VSUB = 6'b000010;
+  localparam logic [5:0] OPC_VMUL = 6'b000011;
+  localparam logic [5:0] OPC_VOR = 6'b001000;
 
   localparam logic [5:0] OPC_VLOAD = 6'b010000;
-  localparam logic [5:0] OPC_VSTR  = 6'b010001;
-  localparam logic [5:0] OPC_BEQ   = 6'b110000;
+  localparam logic [5:0] OPC_VSTR = 6'b010001;
+  localparam logic [5:0] OPC_BEQ = 6'b110000;
 
-  localparam logic [5:0] OPC_VCMP  = 6'b100000;
-  localparam logic [5:0] OPC_VINV  = 6'b100001;
-  localparam logic [5:0] OPC_VPOP  = 6'b100010;
+  localparam logic [5:0] OPC_VLOAD_IND = 6'b010010;
+  localparam logic [5:0] OPC_VSTR_IND = 6'b010011;
+
+  localparam logic [5:0] OPC_VCMP = 6'b100000;
+  localparam logic [5:0] OPC_VINV = 6'b100001;
+  localparam logic [5:0] OPC_VPOP = 6'b100010;
 
 
   logic [5:0] opcode;
@@ -45,12 +49,13 @@ module instruction_decoder (
   assign imm    = instr[16:0];
 
   always_comb begin
-    we      = 1'b0;
-    wb_sel  = 1'b0;
-    alu_op  = 2'b00;
-    branch  = 1'b0;
-    mem_we  = 1'b0;
-    mask_op = 2'b00;
+    we           = 1'b0;
+    wb_sel       = 1'b0;
+    alu_op       = 2'b00;
+    branch       = 1'b0;
+    mem_we       = 1'b0;
+    mask_op      = 2'b00;
+    mem_addr_sel = 1'b0;
 
     case (opcode)
       OPC_VADD: begin
@@ -90,6 +95,15 @@ module instruction_decoder (
         wb_sel = 1'b1;
         alu_op = 2'b01;
         branch = 1'b1;
+      end
+      OPC_VLOAD_IND: begin
+        we           = 1'b1;
+        wb_sel       = 1'b1;
+        mem_addr_sel = 1'b1;
+      end
+      OPC_VSTR_IND: begin
+        mem_we       = 1'b1;
+        mem_addr_sel = 1'b1;
       end
       OPC_VCMP: begin
         we      = 1'b0;
