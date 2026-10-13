@@ -11,25 +11,34 @@ module simd_datapath (
 
     input wire [1:0] mask_op,
 
+    input wire cmp_set,
+
     input wire wb_sel,
 
     input  wire  [ 3:0][31:0] mem_data_out,  // data coming from sram
     output logic [ 3:0][31:0] mem_data_in,   // data going to sram
     output logic [31:0]       mem_ptr_out,
 
-    output logic any_active
+    output logic any_active,
+    output logic branch_taken
 
 );
 
   logic [3:0][31:0] alu_in_a;
   logic [3:0][31:0] alu_in_b;
+  logic [3:0][31:0] rd_val;
   logic [3:0][31:0] alu_out;
   logic [3:0][31:0] write_back_data;
   logic [3:0]       cmp_mask;
+  logic             alu_all_zero;
+  logic             zero_flag;
 
-  assign mem_data_in = alu_in_a;
+  assign mem_data_in = rd_val;
 
   assign mem_ptr_out = alu_in_a[0];
+
+  // The branch unit consumes the latched scalar equality flag.
+  assign branch_taken = zero_flag;
 
   logic [3:0] exec_mask;
   logic [3:0] mask_stack[4];
@@ -75,6 +84,17 @@ module simd_datapath (
     end
   end
 
+  // Scalar equality flag: VCMP (cmp_set) latches whether rs1 == rs2 across
+  // all lanes. BEQ later branches on this flag. Kept separate from the SIMT
+  // exec_mask so control flow is decoupled from lane divergence.
+  always_ff @(posedge clk) begin
+    if (reset) begin
+      zero_flag <= 1'b0;
+    end else if (cmp_set) begin
+      zero_flag <= alu_all_zero;
+    end
+  end
+
   always_comb begin
     if (wb_sel) begin
       write_back_data = mem_data_out;
@@ -91,7 +111,8 @@ module simd_datapath (
       .rd(rd),
       .wd(write_back_data),
       .rd1_data(alu_in_a),
-      .rd2_data(alu_in_b)
+      .rd2_data(alu_in_b),
+      .rd_data(rd_val)
   );
 
   vector_alu alu_inst (
@@ -99,7 +120,8 @@ module simd_datapath (
       .b(alu_in_b),
       .alu_op(alu_op),
       .result(alu_out),
-      .cmp_mask(cmp_mask)
+      .cmp_mask(cmp_mask),
+      .all_zero(alu_all_zero)
   );
 
 endmodule

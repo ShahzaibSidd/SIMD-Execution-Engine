@@ -14,6 +14,9 @@ module simd_core (
 
   logic              ctrl_any_active;
   logic              ctrl_branch;
+  logic              ctrl_branch_ne;
+  logic              ctrl_cmp_set;
+  logic              ctrl_branch_taken;
 
   logic              ctrl_mem_we;
   logic              ctrl_mem_addr_sel;
@@ -37,8 +40,9 @@ module simd_core (
       .reset(reset),
       .pc(pc),
       .branch(ctrl_branch),
+      .branch_ne(ctrl_branch_ne),
       .imm(imm),
-      .any_active(ctrl_any_active)
+      .branch_taken(ctrl_branch_taken)
   );
 
   instruction_memory rom_inst (
@@ -55,7 +59,9 @@ module simd_core (
       .alu_op(ctrl_alu_op),
       .wb_sel(ctrl_wb_sel),
       .branch(ctrl_branch),
+      .branch_ne(ctrl_branch_ne),
       .imm(imm),
+      .cmp_set(ctrl_cmp_set),
       .mem_we(ctrl_mem_we),
       .mem_addr_sel(ctrl_mem_addr_sel),
       .mask_op(ctrl_mask_op)
@@ -70,11 +76,13 @@ module simd_core (
       .rd(ctrl_rd),
       .alu_op(ctrl_alu_op),
       .mask_op(ctrl_mask_op),
+      .cmp_set(ctrl_cmp_set),
       .mem_data_out(mem_to_datapath),
       .mem_data_in(datapath_to_mem),
       .mem_ptr_out(datapath_mem_ptr),
       .wb_sel(ctrl_wb_sel),
-      .any_active(ctrl_any_active)
+      .any_active(ctrl_any_active),
+      .branch_taken(ctrl_branch_taken)
   );
 
   data_memory ram_inst (

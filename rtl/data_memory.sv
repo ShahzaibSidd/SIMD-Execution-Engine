@@ -11,7 +11,7 @@ module data_memory (
   logic [ 3:0][31:0] sram       [256];
   logic [27:0]       word_index;
 
-  assign word_index = address[31:4];
+  assign word_index = address[27:0];
 
   initial begin
     for (int i = 0; i < 256; i++) begin

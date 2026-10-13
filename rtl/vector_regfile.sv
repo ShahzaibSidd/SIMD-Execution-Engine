@@ -9,7 +9,8 @@ module vector_regfile (
     input wire [3:0][31:0] wd,
 
     output logic [3:0][31:0] rd1_data,
-    output logic [3:0][31:0] rd2_data
+    output logic [3:0][31:0] rd2_data,
+    output logic [3:0][31:0] rd_data
 );
 
   logic [3:0][31:0] v_reg[8];
@@ -29,6 +30,7 @@ module vector_regfile (
   always_comb begin
     rd1_data = v_reg[rs1];
     rd2_data = v_reg[rs2];
+    rd_data  = v_reg[rd];
   end
 
 endmodule

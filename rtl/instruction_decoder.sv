@@ -13,7 +13,11 @@ module instruction_decoder (
 
     // branch control
     output logic        branch,
+    output logic        branch_ne,
     output logic [16:0] imm,
+
+    // scalar compare flag control
+    output logic cmp_set,
 
     // sram memory control
     output logic mem_we,
@@ -30,8 +34,6 @@ module instruction_decoder (
 
   localparam logic [5:0] OPC_VLOAD = 6'b010000;
   localparam logic [5:0] OPC_VSTR = 6'b010001;
-  localparam logic [5:0] OPC_BEQ = 6'b110000;
-
   localparam logic [5:0] OPC_VLOAD_IND = 6'b010010;
   localparam logic [5:0] OPC_VSTR_IND = 6'b010011;
 
@@ -39,6 +41,8 @@ module instruction_decoder (
   localparam logic [5:0] OPC_VINV = 6'b100001;
   localparam logic [5:0] OPC_VPOP = 6'b100010;
 
+  localparam logic [5:0] OPC_BEQ = 6'b110000;
+  localparam logic [5:0] OPC_BNE = 6'b110001;
 
   logic [5:0] opcode;
 
@@ -56,6 +60,8 @@ module instruction_decoder (
     mem_we       = 1'b0;
     mask_op      = 2'b00;
     mem_addr_sel = 1'b0;
+    cmp_set      = 1'b0;
+    branch_ne    = 1'b0;
 
     case (opcode)
       OPC_VADD: begin
@@ -96,6 +102,13 @@ module instruction_decoder (
         alu_op = 2'b01;
         branch = 1'b1;
       end
+      OPC_BNE: begin
+        we        = 1'b0;
+        wb_sel    = 1'b1;
+        alu_op    = 2'b01;
+        branch    = 1'b1;
+        branch_ne = 1'b1;
+      end
       OPC_VLOAD_IND: begin
         we           = 1'b1;
         wb_sel       = 1'b1;
@@ -106,10 +119,12 @@ module instruction_decoder (
         mem_addr_sel = 1'b1;
       end
       OPC_VCMP: begin
+        // Scalar branch-compare: subtract rs1-rs2 and latch the equality
+        // flag for a following BEQ. Does NOT disturb the SIMT lane mask.
         we      = 1'b0;
-        wb_sel  = 1'b1;
+        wb_sel  = 1'b0;
         alu_op  = 2'b01;
-        mask_op = 2'b01;
+        cmp_set = 1'b1;
       end
       OPC_VINV: begin
         we      = 1'b0;

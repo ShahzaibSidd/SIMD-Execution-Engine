@@ -17,7 +17,7 @@ module alu (
     case (alu_op)
       OP_ADD:  result = a + b;
       OP_SUB:  result = a - b;
-      OP_AND:  result = a * b;
+      OP_MUL:  result = a * b;
       OP_OR:   result = a | b;
       default: result = 32'd0;
 
