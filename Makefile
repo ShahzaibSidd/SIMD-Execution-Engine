@@ -57,6 +57,22 @@ div_sim: div_compile
 div_wave: div_sim
 	gtkwave $(DIV_VCD) &
 
+SHOW_TB  = tb/simd_showcase_tb.sv
+SHOW_VVP = sim/simd_showcase.vvp
+SHOW_VCD = sim/simd_showcase.vcd
+
+show_asm:
+	python3 software/assembler.py software/compare_diverge.asm software/program.hex
+
+show_compile: show_asm
+	iverilog -g2012 -o $(SHOW_VVP) $(RTL_SRCS) $(SHOW_TB)
+
+show_sim: show_compile
+	vvp $(SHOW_VVP)
+
+show_wave: show_sim
+	gtkwave $(SHOW_VCD) &
+
 # Clean up the simulation folder
 clean:
 	rm -f sim/*.vvp sim/*.vcd
