@@ -39,6 +39,24 @@ sim: compile
 wave: sim
 	gtkwave $(OUT_VCD) &
 
+# ---- SIMT divergence test (VIF / VINV / VPOP) ----
+DIV_TB  = tb/simd_divergence_tb.sv
+DIV_VVP = sim/simd_divergence.vvp
+DIV_VCD = sim/simd_divergence.vcd
+
+# Assemble the divergence program into program.hex (the ROM path the core reads)
+div_asm:
+	python3 software/assembler.py software/divergence.asm software/program.hex
+
+div_compile: div_asm
+	iverilog -g2012 -o $(DIV_VVP) $(RTL_SRCS) $(DIV_TB)
+
+div_sim: div_compile
+	vvp $(DIV_VVP)
+
+div_wave: div_sim
+	gtkwave $(DIV_VCD) &
+
 # Clean up the simulation folder
 clean:
 	rm -f sim/*.vvp sim/*.vcd

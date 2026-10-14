@@ -40,6 +40,7 @@ module instruction_decoder (
   localparam logic [5:0] OPC_VCMP = 6'b100000;
   localparam logic [5:0] OPC_VINV = 6'b100001;
   localparam logic [5:0] OPC_VPOP = 6'b100010;
+  localparam logic [5:0] OPC_VIF = 6'b100011;
 
   localparam logic [5:0] OPC_BEQ = 6'b110000;
   localparam logic [5:0] OPC_BNE = 6'b110001;
@@ -104,17 +105,6 @@ module instruction_decoder (
       OPC_VSTR: begin
         ctrl.mem_we = 1'b1;
       end
-      OPC_BEQ: begin
-        ctrl.wb_sel = 1'b1;
-        ctrl.alu_op = 2'b01;
-        ctrl.branch = 1'b1;
-      end
-      OPC_BNE: begin
-        ctrl.wb_sel    = 1'b1;
-        ctrl.alu_op    = 2'b01;
-        ctrl.branch    = 1'b1;
-        ctrl.branch_ne = 1'b1;
-      end
       OPC_VLOAD_IND: begin
         ctrl.we           = 1'b1;
         ctrl.wb_sel       = 1'b1;
@@ -137,6 +127,21 @@ module instruction_decoder (
         ctrl.wb_sel  = 1'b1;
         ctrl.alu_op  = 2'b01;
         ctrl.mask_op = 2'b11;
+      end
+      OPC_VIF: begin
+        ctrl.mask_op = 2'b01;
+        ctrl.alu_op  = 2'b01;
+      end
+      OPC_BEQ: begin
+        ctrl.wb_sel = 1'b1;
+        ctrl.alu_op = 2'b01;
+        ctrl.branch = 1'b1;
+      end
+      OPC_BNE: begin
+        ctrl.wb_sel    = 1'b1;
+        ctrl.alu_op    = 2'b01;
+        ctrl.branch    = 1'b1;
+        ctrl.branch_ne = 1'b1;
       end
 
       default: ctrl = '0;

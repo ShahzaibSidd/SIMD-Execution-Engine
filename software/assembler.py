@@ -13,6 +13,7 @@ OPCODES = {
     "VCMP":      0b100000,
     "VINV":      0b100001,
     "VPOP":      0b100010,
+    "VIF":       0b100011,
     "BEQ":       0b110000,
     "BNE":       0b110001
 }
@@ -75,6 +76,11 @@ def assemble(input_file, output_file):
             # Format: VLOAD_IND V1, [V4]
             rd = parse_register(parts[1])
             rs1 = parse_register(parts[2])
+
+        elif op_str == "VIF":
+            # Format: VIF V1, V2  -> activate lanes where rs1 (V1) == rs2 (V2)
+            rs1 = parse_register(parts[1])
+            rs2 = parse_register(parts[2])
 
         elif op_str in ["BEQ", "BNE"]:
             # Format: BEQ/BNE LABEL
